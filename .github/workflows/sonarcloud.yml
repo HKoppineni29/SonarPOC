@@ -1,10 +1,10 @@
 name: SonarCloud
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-  pull_request:
+  push:
     branches:
       - main
 
@@ -14,19 +14,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # full history for better analysis
+        uses: actions/checkout@3df4f61e5d0f4342e0c58a13c4f5f5f568e23062
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c3fca64646a7e6a8996d49f2d508a09c2d6b5ec0
         with:
           distribution: temurin
           java-version: 17
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v2
+        uses: SonarSource/sonarqube-scan-action@b1015f8e19cf8a6c1b12dfb729f7ef83a19db5c4
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # GitHub provides this automatically
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}     # You created this in SonarCloud
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: "https://sonarcloud.io"
